@@ -1,30 +1,33 @@
-import Header from "./components/Header"
+import Header from "./components/Header";
 import Results from "./components/Results";
-import UserInput from "./components/UserInput"
+import UserInput from "./components/UserInput";
 import { useState } from "react";
 
 function App() {
-    const [userInput, setUserInput] = useState({
+  const [userInput, setUserInput] = useState({
     initialInvestment: 1000,
     annualInvestment: 1200,
     expectedReturn: 6,
     duration: 10,
   });
-    function handleChange(inputIdentifier, newValue) {
+  const inputIsValid = userInput.duration >= 1;
+  function handleChange(inputIdentifier, newValue) {
     setUserInput((prevInput) => {
       return {
         ...prevInput,
-        [inputIdentifier]: newValue
+        [inputIdentifier]: +newValue,
       };
     });
   }
+
   return (
     <>
-    <Header/>
-    <UserInput onChange={handleChange} userInput={userInput}/>
-    <Results input={userInput}/>
+      <Header />
+      <UserInput onChange={handleChange} userInput={userInput} />
+      {!inputIsValid && <p className="center">Please enter a duration greater than zero.</p> }
+      {inputIsValid && <Results input={userInput} />}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
